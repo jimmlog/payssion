@@ -41,7 +41,7 @@ class PayssionClient
     /**
      * @var array
      */
-    protected $http_errors = [
+    protected $httpErrors = [
         400 => '400 Bad Request',
         401 => '401 Unauthorized',
         500 => '500 Internal Server Error',
@@ -84,11 +84,11 @@ class PayssionClient
         $this->apiKey = $apiKey;
         $this->secretKey = $secretKey;
 
-        $validate_params = [
+        $validateParams = [
             empty($this->apiKey) => 'api_key is not set!',
             empty($this->secretKey) => 'secret_key is not set!',
         ];
-        $this->checkForErrors($validate_params);
+        $this->checkForErrors($validateParams);
 
         $this->setLiveMode($isLiveMode);
     }
@@ -182,14 +182,13 @@ class PayssionClient
     {
         $this->isSuccess = false;
 
-        $validate_params = array
-        (
+        $validateParams = [
             false === is_string($method) => 'Method name must be string',
             false === $this->checkRequestMethod($request) => 'Not allowed request method type',
             true === empty($params) => 'params is null',
-        );
+        ];
 
-        $this->checkForErrors($validate_params);
+        $this->checkForErrors($validateParams);
 
         $params['api_key'] = $this->apiKey;
         $params['api_sig'] = $this->getSig($params, self::$sigKeys[$method]);
@@ -215,13 +214,13 @@ class PayssionClient
      */
     protected function getSig(&$params, $sigKeys)
     {
-        $msg_array = array();
+        $messages = [];
         foreach ($sigKeys as $key) {
-            $msg_array[$key] = isset($params[$key]) ? $params[$key] : '';
+            $messages[$key] = isset($params[$key]) ? $params[$key] : '';
         }
-        $msg_array['secret_key'] = $this->secretKey;
+        $messages['secret_key'] = $this->secretKey;
 
-        $msg = implode('|', $msg_array);
+        $msg = implode('|', $messages);
         $sig = md5($msg);
         return $sig;
     }
@@ -249,9 +248,9 @@ class PayssionClient
      */
     protected function checkRequestMethod($methodType)
     {
-        $request_method = strtolower($methodType);
+        $requestMethod = strtolower($methodType);
 
-        if (in_array($request_method, $this->allowedRequestMethods)) {
+        if (in_array($requestMethod, $this->allowedRequestMethods)) {
             return true;
         }
 
@@ -288,8 +287,8 @@ class PayssionClient
 
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        if (isset($this->http_errors[$code])) {
-            throw new Exception('Response Http Error - ' . $this->http_errors[$code], $code);
+        if (isset($this->httpErrors[$code])) {
+            throw new Exception('Response Http Error - ' . $this->httpErrors[$code], $code);
         }
 
         $code = curl_errno($ch);
