@@ -1,0 +1,40 @@
+{
+    "name": "jimmlog/payssion",
+    "description": "Payssion PHP library",
+    "version": "1.3.0",
+    "keywords": [
+        "payssion",
+        "php",
+        "composer"
+    ],
+    "type": "library",
+    "homepage": "https://github.com/jimmlog/payssion/",
+    "require": {
+        "php": ">=5.4.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-openssl": "*"
+    },
+    "license": "MIT",  "support": {
+    "issues": "https://github.com/jimmlog/payssion/issues?state=open",
+    "source": "https://github.com/jimmlog/payssion/"
+},
+    "authors": [
+        {
+            "name": "Jimm Logan",
+            "email": "jimmloga@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "jimmlog\\payssion\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
